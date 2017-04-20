@@ -1,0 +1,5 @@
+**/node_modules
+dist
+**/qrconfig.json
+npm-debug.log
+shipitfile.js
