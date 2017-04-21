@@ -1,8 +1,6 @@
 /* eslint  no-alert:0 */
-import React from 'react';
+import React, {Component, PropTypes} from 'react';
 import {render} from 'react-dom';
-import axios from 'axios';
-import sha1 from 'sha1';
 
 import wxApi from './wxConfig';
 
@@ -15,10 +13,34 @@ const question = {
   reftext: 'Hope is a good thing'
 };
 
-const APP_ID = 'chiron';
-const SECRET = '89b0c1aaf22dabb012d60d1a03373142';
+class Input extends Component {
+  static propTypes = {
+    attr: PropTypes.string.isRequired,
+    placeholder: PropTypes.string,
+    onChange: PropTypes.func.isRequired
+  }
 
-class App extends React.Component {
+  static defaultProps = {
+    placeholder: ''
+  }
+
+  handleChange = e => {
+    this.props.onChange(this.props.attr, e.target.value);
+  }
+
+  render() {
+    const {attr, placeholder} = this.props;
+    return (
+      <input
+        className="api-test-input"
+        placeholder={placeholder || attr}
+        onChange={this.handleChange}
+        />
+    );
+  }
+}
+
+class App extends Component {
   constructor(props) {
     super(props);
 
@@ -43,25 +65,12 @@ class App extends React.Component {
     }
   }
 
-  handleInitApi() {
-    // Get accessToken
-    const timestamp = Math.floor(Date.now() / 1000);
-    const array = [APP_ID, SECRET, String(timestamp)];
-    const signature = sha1(array.sort().join(''));
-
-    axios.get('http://wx.llsstaging.com/wechat/access_token', {
-      params: {
-        app_id: APP_ID, // eslint-disable-line camelcase
-        timestamp,
-        signature
-      }
-    }).then(res => {
-      wxRecorder.init({
-        appId: APP_ID,
-        accessToken: res.data.access_token,
-        secret: SECRET
-      });
-    }).catch(res => alert(res));
+  handleInitApi = () => {
+    wxRecorder.init({
+      appId: this.state.appId,
+      accessToken: this.state.accessToken,
+      secret: this.state.secret
+    });
   }
 
   handleStartRecord = () => {
@@ -111,6 +120,12 @@ class App extends React.Component {
     });
   }
 
+  handleStateChange = (attr, value) => {
+    this.setState({
+      [attr]: value
+    });
+  }
+
   renderReupload() {
     if (this.state.reuploadServerId) {
       return (
@@ -129,6 +144,19 @@ class App extends React.Component {
       <div className="native-apis-list">
         {this.state.jssdkOk ? 'jssdkOK' : 'jssdk can`t work'}
         <p>{question.reftext}</p>
+        <Input
+          attr="appId"
+          onChange={this.handleStateChange}
+          />
+        <Input
+          attr="secret"
+          placeholder="secret(密码)"
+          onChange={this.handleStateChange}
+          />
+        <Input
+          attr="accessToken"
+          onChange={this.handleStateChange}
+          />
         <button
           className="api-test-btn"
           onClick={this.handleInitApi}
