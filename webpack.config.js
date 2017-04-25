@@ -3,7 +3,7 @@
 const webpack = require('webpack');
 const path = require('path');
 
-const version = '0.0.2';
+const version = 'v1.0.0';
 
 const config = {
   output: {

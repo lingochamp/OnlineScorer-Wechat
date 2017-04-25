@@ -7,6 +7,7 @@ if (!wx) {
   throw new Error('未引入微信SDK');
 }
 
+const RATE_URL = 'https://openapi.llsapp.com/api/ratings';
 const reuploadableVoices = {};
 
 class WxRecorder {
@@ -89,7 +90,7 @@ class WxRecorder {
     }
 
     const meta = getMeta(question, this.secret, this.appId);
-    return axios.post('http://wx.llsstaging.com/api/ratings', {
+    return axios.post(RATE_URL, {
       mediaId: serverId,
       accessToken: this.accessToken,
       meta

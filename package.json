@@ -2,6 +2,7 @@
   "name": "lls-wx-recorder",
   "version": "1.0.0",
   "description": "流利说微信在线打分SDK",
+  "main": "src/index.js",
   "scripts": {
     "build": "webpack -w",
     "start": "node server.js"
@@ -9,6 +10,10 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/lingochamp/OnlineScorer-Wechat.git"
+  },
   "devDependencies": {
     "babel-cli": "^6.24.0",
     "babel-core": "^6.24.0",

@@ -5,11 +5,11 @@
 2. 录音时间超过微信语音限制，此时sdk会自动终止录音并返回打分报告。
 
 ## DEMO地址
-http://hybrid.staging.llsapp.com/lls-wx-recorder/wx.html
-![image](http://wx4.sinaimg.cn/large/6875a344gy1fel3medrbuj207s07st8h.jpg)
+https://hybrid.liulishuo.com/lls-wx-recorder/wx.html
+![image](http://wx4.sinaimg.cn/large/6875a344gy1feywir5sj4j207s07st8h.jpg)
 ## 微信SDK使用方法
 ### 引入
-1. 在需要调用JS接口的页面引入微信SDK以及如下JS文件:  //cdn.llscdn.com/hybrid/lls-wx-recorder/llsWxRecorder-0.0.2.js
+1. 在需要调用JS接口的页面引入微信SDK以及如下JS文件:  //cdn.llscdn.com/hybrid/lls-wx-recorder/llsWxRecorder-v1.0.0.js
 2. 通过`wx.config`注入微信权限配置。录音打分SDK需要的权限包括
     - `startRecord`
     - `onVoiceRecordEnd`
@@ -27,7 +27,7 @@ http://hybrid.staging.llsapp.com/lls-wx-recorder/wx.html
 ### 录音
 ```
   llsWxRecorder.startRecord({
-    question: {// 必填，朗读句子内容
+    question: { // 必填，朗读句子内容
       reftext: 'Hope is a good thing'
       type: 'readaloud'
     },
