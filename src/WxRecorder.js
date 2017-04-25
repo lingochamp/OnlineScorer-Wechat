@@ -48,7 +48,8 @@ class WxRecorder {
       this.onGetResult({
         localId,
         success: false,
-        msg: `停止录音失败: ${e}`
+        status: -1000,
+        msg: e
       });
     });
   }
@@ -71,7 +72,8 @@ class WxRecorder {
       this.onGetResult({
         localId,
         success: false,
-        msg: `上传失败: ${e}`
+        status: -1001,
+        msg: e
       });
     });
   }
@@ -116,7 +118,8 @@ class WxRecorder {
       onGetResult({
         ...voiceInfo,
         success: false,
-        msg: `打分报告获取失败：${e}`
+        status: -1002,
+        msg: e
       });
     });
   }
