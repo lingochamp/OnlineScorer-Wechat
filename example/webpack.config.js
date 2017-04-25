@@ -14,9 +14,11 @@ if (localDev) {
   libBaseUrl = '//cdn.llscdn.com/hybrid/lls-wx-recorder'; // ENV=production
 }
 
+const ENV = process.env.FE_ENV || 'staging';
+
 const plugins = [
   new webpack.optimize.OccurrenceOrderPlugin(),
-  new webpack.NoErrorsPlugin(),
+  new webpack.NoEmitOnErrorsPlugin(),
   new webpack.DefinePlugin({
     'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
@@ -59,5 +61,10 @@ module.exports = {
       use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader']
     }]
   },
-  plugins: plugins
+  plugins: plugins,
+  resolve: {
+    alias: {
+      config: path.resolve(__dirname, 'config', ENV + '.js')
+    }
+  }
 };

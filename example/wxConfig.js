@@ -1,4 +1,5 @@
 import axios from 'axios';
+import config from 'config';
 
 const jsApiList = [
   'startRecord',
@@ -14,7 +15,7 @@ const wxApi = {};
 let wxReady = false;
 
 function wxconfig() {
-  return axios.get('http://staging-telis.llsapp.com:8028/wxconfig', {
+  return axios.get(config.wxConfigApi, {
     params: {
       url: location.href.split('#')[0]
     }

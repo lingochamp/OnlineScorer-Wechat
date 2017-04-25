@@ -33,7 +33,9 @@
     "webpack": "^2.3.2"
   },
   "dependencies": {
+    "axios": "^0.15.3",
     "react": "^15.4.2",
-    "react-dom": "^15.4.2"
+    "react-dom": "^15.4.2",
+    "sha1": "^1.1.1"
   }
 }

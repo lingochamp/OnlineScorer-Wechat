@@ -1,7 +1,9 @@
 /* eslint  no-alert:0 */
 import React, {Component, PropTypes} from 'react';
 import {render} from 'react-dom';
-
+import axios from 'axios';
+import sha1 from 'sha1';
+import config from 'config';
 import wxApi from './wxConfig';
 
 import './styles/theme.scss';
@@ -66,11 +68,24 @@ class App extends Component {
   }
 
   handleInitApi = () => {
-    wxRecorder.init({
-      appId: this.state.appId,
-      accessToken: this.state.accessToken,
-      secret: this.state.secret
-    });
+    // Get accessToken
+    const timestamp = Math.floor(Date.now() / 1000);
+    const array = [config.appId, config.secret, String(timestamp)];
+    const signature = sha1(array.sort().join(''));
+
+    axios.get(config.accessTokenApi, {
+      params: {
+        app_id: config.appId, // eslint-disable-line camelcase
+        timestamp,
+        signature
+      }
+    }).then(res => {
+      wxRecorder.init({
+        appId: this.state.appId,
+        accessToken: res.data.access_token,
+        secret: this.state.secret
+      });
+    }).catch(res => alert(res));
   }
 
   handleStartRecord = () => {
@@ -151,10 +166,6 @@ class App extends Component {
         <Input
           attr="secret"
           placeholder="secret(密码)"
-          onChange={this.handleStateChange}
-          />
-        <Input
-          attr="accessToken"
           onChange={this.handleStateChange}
           />
         <button
