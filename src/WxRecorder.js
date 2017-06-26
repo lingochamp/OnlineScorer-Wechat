@@ -3,33 +3,42 @@ import getMeta from './getMeta';
 import getResult from './getResult';
 import wx from 'wx';
 
-if (!wx) {
-  throw new Error('未引入微信SDK');
-}
-
 const RATE_URL = 'https://openapi.llsapp.com/api/ratings';
 const reuploadableVoices = {};
 
 class WxRecorder {
-  constructor({appId, accessToken, secret}) {
+  constructor({appId, accessToken, secret, rateUrl = RATE_URL}) {
+    if (!wx) {
+      throw new Error('未引入微信SDK');
+    }
+
     this.appId = appId;
     this.accessToken = accessToken;
     this.secret = secret;
+    this.rateUrl = rateUrl;
   }
 
-  startRecord({question, onGetResult}) {
+  startRecord({question, onGetResult, onVoiceUpload}) {
     this.onGetResult = onGetResult;
+    if (typeof onVoiceUpload === 'function') {
+      this.onVoiceUpload = onVoiceUpload;
+    } else {
+      this.onVoiceUpload = null;
+    }
 
     this.question = question;
-    wx.startRecord({
-      cancel: () => {
-        throw new Error('用户拒绝授权录音');
-      }
-    });
 
     // 如果录音时间超过一分钟
     wx.onVoiceRecordEnd({
       complete: this.uploadAndRate
+    });
+
+    return new Promise((resolve, reject) => {
+      wx.startRecord({
+        success: resolve,
+        fail: reject,
+        cancel: reject
+      });
     });
   }
 
@@ -64,6 +73,10 @@ class WxRecorder {
         fail
       });
     }).then(res => {
+      if (this.onVoiceUpload) {
+        this.onVoiceUpload(res);
+      }
+
       return this.rateVoice({
         serverId: res.serverId,
         localId
@@ -92,7 +105,7 @@ class WxRecorder {
     }
 
     const meta = getMeta(question, this.secret, this.appId);
-    return axios.post(RATE_URL, {
+    return axios.post(this.rateUrl, {
       mediaId: serverId,
       accessToken: this.accessToken,
       meta

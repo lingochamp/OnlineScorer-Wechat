@@ -7,7 +7,7 @@ module.exports = {
     wxRecorder = new WxRecorder(config);
   },
   startRecord: config => {
-    wxRecorder.startRecord(config);
+    return wxRecorder.startRecord(config);
   },
   stopRecord: () => {
     return wxRecorder.stopAndRate();

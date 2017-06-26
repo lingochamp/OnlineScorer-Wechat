@@ -9,7 +9,7 @@ http://hybrid.liulishuo.com/lls-wx-recorder/wx.html
 ![image](http://wx4.sinaimg.cn/mw690/6875a344ly1fez79mwcmzj207s07st8h.jpg)
 ## 微信SDK使用方法
 ### 引入
-1. 在需要调用JS接口的页面引入微信SDK以及如下JS文件:  //cdn.llscdn.com/hybrid/lls-wx-recorder/llsWxRecorder-v1.0.0.js
+1. 在需要调用JS接口的页面引入微信SDK以及如下JS文件:  //cdn.llscdn.com/hybrid/lls-wx-recorder/llsWxRecorder-v1.1.0.js
 2. 通过`wx.config`注入微信权限配置。录音打分SDK需要的权限包括
     - `startRecord`
     - `onVoiceRecordEnd`
@@ -31,7 +31,7 @@ http://hybrid.liulishuo.com/lls-wx-recorder/wx.html
       reftext: 'Hope is a good thing'
       type: 'readaloud'
     },
-    onGetResult: function(resp) { // 必填，获得打分报告后的回调函数
+    onGetResult: (resp) => { // 必填，获得打分报告后的回调函数
       var localId = resp.localId; // 音频 localId
       var serverId = resp.serverId; // 音频 serverId
       if (resp.success) {
@@ -39,7 +39,12 @@ http://hybrid.liulishuo.com/lls-wx-recorder/wx.html
       } else {
         // 打分失败，resp.status为失败原因
       }
+    },
+    onVoiceUpload: (resp) => {
+      // 选填，录音上传成功的回调，返回 wx.uploadVoice结果
     }
+  }).then(() => {
+    // 录音开始
   });
 ```
 
@@ -100,7 +105,7 @@ http://hybrid.liulishuo.com/lls-wx-recorder/wx.html
 -40 - 客户购买的资源已占满，当前请求无法实时处理
 -99 - 计算资源不可用
 -100 - 未知错误
--1000 - 停止录音失败
--1001 - 音频上传失败
+-1000 - 微信sdk停止录音失败（`wx.stopRecord`抛出的异常）
+-1001 - 微信sdk音频上传失败
 -1002 - 打分报告获取失败
 ```
