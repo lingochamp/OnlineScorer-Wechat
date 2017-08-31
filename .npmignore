@@ -1,6 +1,6 @@
 **/node_modules
 dist
-lib
 **/qrconfig.json
 npm-debug.log
 shipitfile.js
+src/config/staging.js

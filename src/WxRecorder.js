@@ -1,13 +1,22 @@
 import axios from 'axios';
 import getMeta from './getMeta';
 import getResult from './getResult';
-import wx from 'wx';
+import config from './config/production';
 
-const RATE_URL = 'https://openapi.llsapp.com/api/ratings';
+const STATUS_CODE = {
+  STOP_ERROR: -1000,
+  UPLOAD_ERROR: -1001,
+  RATE_ERROR: -1002
+};
+
+const {RATE_HOST} = config;
+
+const wx = window.wx;
+
 const reuploadableVoices = {};
 
 class WxRecorder {
-  constructor({appId, accessToken, secret, rateUrl = RATE_URL}) {
+  constructor({appId, accessToken, secret, rateHost}) {
     if (!wx) {
       throw new Error('未引入微信SDK');
     }
@@ -15,7 +24,7 @@ class WxRecorder {
     this.appId = appId;
     this.accessToken = accessToken;
     this.secret = secret;
-    this.rateUrl = rateUrl;
+    this.rateHost = rateHost || RATE_HOST;
   }
 
   startRecord({question, onGetResult, onVoiceUpload}) {
@@ -51,16 +60,15 @@ class WxRecorder {
         success,
         fail
       });
-    })
-    .then(this.uploadAndRate)
-    .catch(e => { // Stop fail
-      this.onGetResult({
-        localId,
-        success: false,
-        status: -1000,
-        msg: e
+    }).then(this.uploadAndRate)
+      .catch(e => { // Stop fail
+        this.handleGetResult({
+          localId,
+          success: false,
+          status: STATUS_CODE.STOP_ERROR,
+          msg: e
+        });
       });
-    });
   }
 
   uploadAndRate = res => {
@@ -85,7 +93,7 @@ class WxRecorder {
       this.onGetResult({
         localId,
         success: false,
-        status: -1001,
+        status: STATUS_CODE.UPLOAD_ERROR,
         msg: e
       });
     });
@@ -105,7 +113,7 @@ class WxRecorder {
     }
 
     const meta = getMeta(question, this.secret, this.appId);
-    return axios.post(this.rateUrl, {
+    return axios.post(`${this.rateHost}/ratings`, {
       mediaId: serverId,
       accessToken: this.accessToken,
       meta
@@ -131,7 +139,7 @@ class WxRecorder {
       onGetResult({
         ...voiceInfo,
         success: false,
-        status: -1002,
+        status: STATUS_CODE.RATE_ERROR,
         msg: e
       });
     });
