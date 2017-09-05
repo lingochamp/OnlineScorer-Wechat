@@ -7,6 +7,7 @@
 ## DEMO地址
 http://hybrid.liulishuo.com/lls-wx-recorder/wx.html
 ![image](http://wx4.sinaimg.cn/mw690/6875a344ly1fez79mwcmzj207s07st8h.jpg)
+
 ## 微信SDK使用方法
 ### 引入
 1. 在需要调用JS接口的页面引入微信SDK以及如下JS文件:  //cdn.llscdn.com/hybrid/lls-wx-recorder/llsWxRecorder-v1.1.0.js
@@ -25,7 +26,30 @@ http://hybrid.liulishuo.com/lls-wx-recorder/wx.html
 ```
 
 ### 录音
+
+| 参数名       | 类型    |  描述  |
+|-------------|--------|--------|
+|question|questionParam|不得为空|
+|onGetResult|function(resp)|获得打分报告后的回调函数, 不得为空|
+|onVoiceUpload|function(resp)|录音上传成功的回调，返回 wx.uploadVoice结果。选填|
+
+#### questionParam
+quetion种类：
+1. `readaloud`：打分。需提供音频对应的文本 `reftext`
+```json
+{
+    "reftext": "Hope is a good thing",
+    "type": "readaloud"
+}
 ```
+2. `dubbing`：明星音比对。仅需注明type。
+```json
+{
+    "type": "dubbing"
+}
+```
+
+```javascript
   llsWxRecorder.startRecord({
     question: { // 必填，朗读句子内容
       reftext: 'Hope is a good thing'
@@ -37,7 +61,7 @@ http://hybrid.liulishuo.com/lls-wx-recorder/wx.html
       if (resp.success) {
         var result = resp.result; // 打分报告
       } else {
-        // 打分失败，resp.status为失败原因
+        // 打分失败，resp.status为错误码，resp.msg为失败原因
       }
     },
     onVoiceUpload: (resp) => {
@@ -49,7 +73,7 @@ http://hybrid.liulishuo.com/lls-wx-recorder/wx.html
 ```
 
 ### 停止录音
-```
+```javascript
   llsWxRecorder.stopRecord();
 ```
 
@@ -60,7 +84,7 @@ http://hybrid.liulishuo.com/lls-wx-recorder/wx.html
 - 录制完毕后在未刷新/关闭网页的情况下直接上传，此时会默认用本地记录的该音频对应的题目和获取打分回调
 - 提供serverId, question信息以及onGetResult回调
 
-```
+```javascript
   llsWxRecorder.reupload({
       serverId: <serverId>, // 必填
       question: <question>, // 选填。如果不提供会用录制时所传的题目
@@ -76,7 +100,8 @@ http://hybrid.liulishuo.com/lls-wx-recorder/wx.html
 ```
 
 ## 打分报告信息
-```
+### question type 为 `readaloud`
+```json
 {
     "fluency": 99,
     "integrity": 100,
@@ -93,6 +118,27 @@ http://hybrid.liulishuo.com/lls-wx-recorder/wx.html
         },
         ...
     ]
+}
+```
+
+### question type 为 `dubbing`
+```json
+{
+  "actors" : [
+    {
+       "audio" : "https://xxx",
+       "role" : {
+            "description" : "http://people.mtime.com/931838/",
+            "gender" : "M",
+            "name" : "Spencer Reid",
+            "realname" : "Matthew Gray Gubler",
+            "tvname" : "CriminalMinds",
+            "url" : "http://img31.mtime.cn/pi/2015/02/07/114451.38663930_1000X1000.jpg"
+         },
+       "score" : 98.59364318847656
+    },
+    ...
+  ]
 }
 ```
 
