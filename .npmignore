@@ -3,4 +3,3 @@ dist
 **/qrconfig.json
 npm-debug.log
 shipitfile.js
-src/config/staging.js

@@ -10,14 +10,17 @@ http://hybrid.liulishuo.com/lls-wx-recorder/wx.html
 
 ## 微信SDK使用方法
 ### 引入
-1. 在需要调用JS接口的页面引入微信SDK以及如下JS文件:  //cdn.llscdn.com/hybrid/lls-wx-recorder/llsWxRecorder-v1.1.0.js
+1. 在需要调用JS接口的页面引入微信SDK以及如下JS文件:  //cdn.llscdn.com/hybrid/lls-wx-recorder/llsWxRecorder-v1.1.0.js。或通过npm
+```
+  npm i lls-wx-recorder -S
+```
 2. 通过`wx.config`注入微信权限配置。录音打分SDK需要的权限包括
     - `startRecord`
     - `onVoiceRecordEnd`
     - `uploadVoice`
 
 ### 配置SDK
-```
+```javascript
   llsWxRecorder.init({
     secret: 'xx', // 必填, 需要提前协商好否则会验证失败
     accessToken: 'xxx', // 必填，公众号accessToken,用于获取录制的音频
