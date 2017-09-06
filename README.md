@@ -38,14 +38,15 @@ http://hybrid.liulishuo.com/lls-wx-recorder/wx.html
 
 #### questionParam
 quetion种类：
-1. `readaloud`：打分。需提供音频对应的文本 `reftext`
+1. 打分：type: `readaloud`，需提供音频对应的文本 `reftext`
 ```json
 {
     "reftext": "Hope is a good thing",
     "type": "readaloud"
 }
 ```
-2. `dubbing`：明星音比对。仅需注明type。
+2. 明星音比对：仅需注明type。type `dubbing` 返回通用结果。
+如果想返回定制化的结果请与技术团队沟通新增type，目前的制化type `xinhuashe`。
 ```json
 {
     "type": "dubbing"
@@ -124,7 +125,7 @@ quetion种类：
 }
 ```
 
-### question type 为 `dubbing`
+### question type 为 `dubbing` 明星音比对，返回通用结果
 ```json
 {
   "actors" : [
@@ -139,6 +140,27 @@ quetion种类：
             "url" : "http://img31.mtime.cn/pi/2015/02/07/114451.38663930_1000X1000.jpg"
          },
        "score" : 98.59364318847656
+    },
+    ...
+  ]
+}
+```
+
+### question type 为 `xinhuashe` 明星音比对，返回App结果
+```json
+{
+  "actors" : [
+    {
+      "audio": "https://xxx",
+      "role": {
+      "actor": "小时候的安娜",
+        "avatarUrl": "https://cdn.llscdn.com/FmF1YVIcqG21LXzEp2ZvSUXlP1c3",
+        "courseId": "56fd4d42636f6e08e70000dd",
+        "courseTitle": "《冰雪奇缘》",
+        "dialogue": "Do you wanna build a snowman?",
+        "movie": "《冰雪奇缘》"
+      },
+      "score" : 98.59364318847656
     },
     ...
   ]
