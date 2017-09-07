@@ -1,6 +1,6 @@
 {
   "name": "lls-wx-recorder",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "流利说微信在线打分SDK",
   "main": "lib",
   "scripts": {

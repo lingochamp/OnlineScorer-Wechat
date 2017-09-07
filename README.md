@@ -10,7 +10,7 @@ http://hybrid.liulishuo.com/lls-wx-recorder/wx.html
 
 ## 微信SDK使用方法
 ### 引入
-1. 在需要调用JS接口的页面引入微信SDK以及如下JS文件:  //cdn.llscdn.com/hybrid/lls-wx-recorder/llsWxRecorder-v1.1.0.js。或通过npm
+1. 在需要调用JS接口的页面引入微信SDK以及如下JS文件:  //cdn.llscdn.com/hybrid/lls-wx-recorder/llsWxRecorder-v1.1.1.js。或通过npm
 ```
   npm i lls-wx-recorder -S
 ```

@@ -7,7 +7,7 @@ const eslint = require('gulp-eslint');
 const runSequence = require('run-sequence');
 const del = require('del');
 
-const version = '1.1.0';
+const version = '1.1.1';
 
 gulp.task('lint', () => {
   return gulp.src('src/**').pipe(eslint())
