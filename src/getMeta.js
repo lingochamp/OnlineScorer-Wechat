@@ -10,6 +10,15 @@ function randomHexStr(length) {
   return str;
 }
 
+function b64EncodeUnicode(str) {
+  // First we use encodeURIComponent to get percent-encoded UTF-8,
+  // then we convert the percent encodings into raw bytes which
+  // can be fed into btoa.
+  return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+    (match, p1) => String.fromCharCode('0x' + p1)
+  ));
+}
+
 function getMeta(item, secret, appId) {
   const salt = `${Math.floor(Date.now() / 1000)}:${randomHexStr(8)}`;
   const metaObj = {
@@ -23,7 +32,7 @@ function getMeta(item, secret, appId) {
 
   const metaPrefix = JSON.stringify(metaObj);
   const hash = md5(`${appId}+${metaPrefix}+${salt}+${secret}`);
-  return btoa(`${metaPrefix};hash=${hash}`);
+  return b64EncodeUnicode(`${metaPrefix};hash=${hash}`);
 }
 
 export default getMeta;
