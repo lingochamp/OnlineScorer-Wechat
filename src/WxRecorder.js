@@ -62,7 +62,7 @@ class WxRecorder {
       });
     }).then(this.uploadAndRate)
       .catch(e => { // Stop fail
-        this.handleGetResult({
+        this.onGetResult({
           localId,
           success: false,
           status: STATUS_CODE.STOP_ERROR,
