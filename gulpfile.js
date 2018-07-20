@@ -4,8 +4,9 @@ const browserify = require('gulp-browserify');
 const uglify = require('gulp-uglify');
 const rename = require('gulp-rename');
 const runSequence = require('run-sequence');
+const package = require('./package.json');
 
-const version = '1.1.2';
+const version = package.version;
 
 gulp.task('browserify', () => {
   return gulp.src(`lib/index.js`)
