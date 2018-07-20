@@ -11,12 +11,13 @@ const STATUS_CODE = {
 
 const {RATE_HOST} = config;
 
-const wx = window.wx;
+let wx;
 
 const reuploadableVoices = {};
 
 class WxRecorder {
-  constructor({appId, accessToken, secret, rateHost}) {
+  constructor({appId, accessToken, secret, rateHost, context = window.wx}) {
+    wx = context;
     if (!wx) {
       throw new Error('未引入微信SDK');
     }

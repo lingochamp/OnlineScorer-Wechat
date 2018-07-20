@@ -25,6 +25,7 @@ http://hybrid.liulishuo.com/lls-wx-recorder/wx.html
     secret: 'xx', // 必填, 需要提前协商好否则会验证失败
     accessToken: 'xxx', // 必填，公众号accessToken,用于获取录制的音频
     appId: 'xx' // 必填, 需要提前协商好否则会验证失败
+    context: window.wx // 非必填，wx sdk对象。默认 window.wx
   });
 ```
 
