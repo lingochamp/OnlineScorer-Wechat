@@ -2,4 +2,6 @@
 dist
 **/qrconfig.json
 npm-debug.log
+yarn-error.log
 shipitfile.js
+gulpfile.js
