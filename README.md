@@ -4,10 +4,6 @@
 1. 调用stopRecord终止录音。
 2. 录音时间超过微信语音限制，此时sdk会自动终止录音并返回打分报告。
 
-## DEMO地址
-http://hybrid.liulishuo.com/lls-wx-recorder/wx.html
-![image](http://wx4.sinaimg.cn/mw690/6875a344ly1fez79mwcmzj207s07st8h.jpg)
-
 ## 微信SDK使用方法
 ### 引入
 1. 在需要调用JS接口的页面引入微信SDK以及如下JS文件:  //cdn.llscdn.com/hybrid/lls-wx-recorder/llsWxRecorder-v1.1.3.js。或通过npm
